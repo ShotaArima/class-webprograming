@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS my_app_db;
+GRANT ALL PRIVILEGES ON my_app_db.* TO 'sspuser'@'%';
+FLUSH PRIVILEGES;

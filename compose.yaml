@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 'dbpass'
+      MYSQL_USER: 'sspuser'        # アプリケーション用ユーザー名
+      MYSQL_PASSWORD: 'ssppass'     # アプリケーション用パスワード
+      # MYSQL_DATABASE: 'appdb'       # このユーザーが権限を持つ初期データベース名
+    volumes:
+      - db_data:/var/lib/mysql
+      # 設定ファイルの上書き（Dockerfileの 'skip-name-resolve' などの反映）
+      - ./mysql/conf.d:/etc/mysql/conf.d:ro 
+      # 初期設定スクリプト（Dockerfileにあったユーザー作成などを代替）
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+    # 外部からのアクセスは許可しない（WebやPHPコンテナからのみアクセス）
+    ports: 
+      - "3306:3306" # 必要ならコメントを解除
+
+# ... 他のサービス定義 ...
+
+volumes:
+  db_data:
