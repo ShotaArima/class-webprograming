@@ -26,9 +26,14 @@ services:
       # 初期設定スクリプト（Dockerfileにあったユーザー作成などを代替）
       - ./mysql/init:/docker-entrypoint-initdb.d:ro
     # 外部からのアクセスは許可しない（WebやPHPコンテナからのみアクセス）
-    # ports: 
-      # - "3306:3306" # 必要ならコメントを解除
-    
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: db
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
   web:
     image: nginx:stable-alpine
     ports:
