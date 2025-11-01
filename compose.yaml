@@ -3,9 +3,9 @@ services:
     build:
       context: ./php
     volumes:
-      - ./src:/home/sspuser/public_html:delegated # アプリケーションコードをマウント (sspuserのホームディレクトリに配置)
+      - ./src:/var/www/html:delegated # アプリケーションコードをマウント (sspuserのホームディレクトリに配置)
       - ./php/php-fpm.d/zz-env.conf:/usr/local/etc/php-fpm.d/zz-env.conf:ro
-      # - php_sock:/var/run/php # PHP-FPMソケットをNginxと共有するための共有ディレクトリ（Nginx側で利用）
+      - ./php/conf.d:/usr/local/etc/php/conf.d
     depends_on:
       - db # データベースサービスへの依存関係を明記
     env_file:
