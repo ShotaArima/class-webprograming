@@ -36,5 +36,8 @@ RUN perl -i -pe 's/^(\s*display_errors\s*\=\s*)Off/$1On/;' /etc/php/8.1/fpm/php.
 # 5. PHP-FPMのソケットディレクトリの作成 (volumesでマウントするため必須)
 RUN mkdir -p /var/run/php
 
+# 既存のソケット設定をTCPポートに変更する RUN コマンドを追加
+RUN sed -i 's/listen = \/run\/php\/php8.1-fpm.sock/listen = 9000/' /etc/php/8.1/fpm/pool.d/www.conf
+
 # 6. PHP-FPMの実行コマンドを設定
 CMD ["/usr/sbin/php-fpm8.1", "-F"]
